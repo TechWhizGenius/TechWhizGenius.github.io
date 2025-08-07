@@ -1,3 +1,5 @@
+
+/*
 // Main JavaScript File - js/main.js
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -338,3 +340,6 @@ const animationCSS = `
 const style = document.createElement('style');
 style.textContent = animationCSS;
 document.head.appendChild(style);
+
+*/
+
