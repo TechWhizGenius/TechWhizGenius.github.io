@@ -66,7 +66,7 @@
     <!-- Main Content -->
     <main>
         <!-- Hero Section -->
-        <section id="hero" class="hero">
+        <section id="hero" class="hero-section">
             <div class="container">
                 <div class="hero-content animate-on-scroll" data-delay="100">
                     <!-- Achievement Banner -->
@@ -78,7 +78,7 @@
                     </div>
                     
                     <h1 class="hero-title" data-delay="300">
-                        Hi, I'm <span class="text-primary">Teja Mandaloju</span>
+                        Hi, I'm <span class="hero-name">Teja Mandaloju</span>
                     </h1>
                     
                     <p class="hero-subtitle lead" data-delay="400">
@@ -225,67 +225,49 @@
                     </div>
                 </div>
                 
-                <!-- Skills Progress Bars -->
-                <div class="skills-progress mt-12 animate-on-scroll" data-delay="400">
+                <!-- Core Technologies -->
+                <div class="core-tech mt-12 animate-on-scroll" data-delay="400">
                     <div class="grid grid-2 gap-8">
-                        <div class="skill-category">
+                        <div class="tech-category">
                             <h4>Programming & Data Science</h4>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span>Python</span>
-                                    <span>95%</span>
+                            <div class="tech-list">
+                                <div class="tech-item">
+                                    <i class="fab fa-python"></i>
+                                    <span>Python - Advanced</span>
                                 </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="95"></div>
+                                <div class="tech-item">
+                                    <i class="fas fa-database"></i>
+                                    <span>SQL - Expert</span>
                                 </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span>SQL</span>
-                                    <span>90%</span>
+                                <div class="tech-item">
+                                    <i class="fab fa-r-project"></i>
+                                    <span>R - Proficient</span>
                                 </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="90"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span>R</span>
-                                    <span>85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="85"></div>
+                                <div class="tech-item">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Statistical Analysis</span>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="skill-category">
+                        <div class="tech-category">
                             <h4>ML & Cloud Technologies</h4>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span>Azure ML</span>
-                                    <span>90%</span>
+                            <div class="tech-list">
+                                <div class="tech-item">
+                                    <i class="fab fa-microsoft"></i>
+                                    <span>Azure ML - Expert</span>
                                 </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="90"></div>
+                                <div class="tech-item">
+                                    <i class="fas fa-brain"></i>
+                                    <span>TensorFlow - Advanced</span>
                                 </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span>TensorFlow</span>
-                                    <span>88%</span>
+                                <div class="tech-item">
+                                    <i class="fab fa-docker"></i>
+                                    <span>Docker - Proficient</span>
                                 </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="88"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span>Docker</span>
-                                    <span>85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="85"></div>
+                                <div class="tech-item">
+                                    <i class="fas fa-infinity"></i>
+                                    <span>MLOps Pipelines</span>
                                 </div>
                             </div>
                         </div>
@@ -511,6 +493,71 @@
     
     <!-- Additional Custom Styles for Homepage -->
     <style>
+        /* Fix Hero Section Spacing and Visibility */
+        .hero-section {
+            background: var(--gradient-hero);
+            color: var(--white);
+            padding: var(--space-16) 0 var(--space-20);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 0;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Make name more visible */
+        .hero-name {
+            color: var(--white);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: var(--font-black);
+        }
+
+        .hero-section h1 {
+            color: var(--white);
+            margin-bottom: var(--space-4);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-section .lead {
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: var(--space-6);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-description {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: var(--space-8);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         /* Achievement Banner */
         .achievement-banner {
             background: linear-gradient(135deg, var(--accent-orange), var(--accent-green));
@@ -596,43 +643,50 @@
             font-weight: var(--font-medium);
         }
 
-        /* Skills Progress */
-        .skills-progress {
+        /* Core Technologies (Removed Percentages) */
+        .core-tech {
             background: var(--white);
             padding: var(--space-8);
             border-radius: var(--border-radius-xl);
             box-shadow: var(--shadow-lg);
         }
 
-        .skill-category h4 {
+        .tech-category h4 {
             margin-bottom: var(--space-6);
             color: var(--gray-800);
         }
 
-        .skill-item {
-            margin-bottom: var(--space-4);
-        }
-
-        .skill-header {
+        .tech-list {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: var(--space-2);
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .tech-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3);
+            background: var(--gray-50);
+            border-radius: var(--border-radius-lg);
+            transition: var(--transition-fast);
+        }
+
+        .tech-item:hover {
+            background: var(--primary-50);
+            transform: translateX(5px);
+        }
+
+        .tech-item i {
+            font-size: 1.25rem;
+            color: var(--primary-600);
+            width: 24px;
+            text-align: center;
+        }
+
+        .tech-item span {
             font-weight: var(--font-medium);
-        }
-
-        .skill-bar {
-            height: 8px;
-            background: var(--gray-200);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .skill-progress {
-            height: 100%;
-            background: var(--gradient-primary);
-            border-radius: 4px;
-            width: 0%;
-            transition: width 1.5s ease-in-out;
+            color: var(--gray-700);
         }
 
         .skill-tags {
@@ -777,8 +831,17 @@
             color: var(--gray-400);
         }
 
+        /* Full width utility */
+        .w-full {
+            width: 100%;
+        }
+
         /* Responsive Design for Homepage */
         @media (max-width: 768px) {
+            .hero-section {
+                padding: var(--space-12) 0 var(--space-16);
+            }
+
             .achievement-banner {
                 font-size: 0.875rem;
                 padding: var(--space-2) var(--space-4);
@@ -792,7 +855,7 @@
                 grid-template-columns: 1fr;
             }
 
-            .skills-progress {
+            .core-tech {
                 padding: var(--space-6);
             }
 
@@ -805,52 +868,31 @@
                 flex-direction: column;
                 text-align: center;
             }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+            }
         }
 
-        /* Animation for skill bars */
-        .skill-progress.animate {
-            animation: fillBar 1.5s ease-in-out forwards;
-        }
+        @media (max-width: 480px) {
+            .hero-section {
+                padding: var(--space-10) 0 var(--space-12);
+            }
 
-        @keyframes fillBar {
-            from { width: 0%; }
-            to { width: var(--progress-width); }
-        }
+            .tech-list {
+                gap: var(--space-3);
+            }
 
-        /* Full width utility for contact form button */
-        .w-full {
-            width: 100%;
+            .tech-item {
+                padding: var(--space-2);
+            }
         }
     </style>
-
-    <!-- Skill Bar Animation Script -->
-    <script>
-        // Animate skill bars when they come into view
-        document.addEventListener('DOMContentLoaded', function() {
-            const observerOptions = {
-                threshold: 0.5,
-                rootMargin: '0px 0px -100px 0px'
-            };
-
-            const skillsObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const skillBars = entry.target.querySelectorAll('.skill-progress');
-                        skillBars.forEach(bar => {
-                            const progress = bar.getAttribute('data-progress');
-                            bar.style.setProperty('--progress-width', progress + '%');
-                            bar.style.width = progress + '%';
-                        });
-                        skillsObserver.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            const skillsSection = document.querySelector('.skills-progress');
-            if (skillsSection) {
-                skillsObserver.observe(skillsSection);
-            }
-        });
-    </script>
 </body>
 </html>
