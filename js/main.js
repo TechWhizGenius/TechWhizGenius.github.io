@@ -1,9 +1,9 @@
 /**
- * Data Science Portfolio - Main JavaScript
+ * Data Science Portfolio - Main JavaScript (Fixed Version)
  * Professional interactive functionality for Teja Mandaloju's portfolio
  * 
  * Features:
- * - Dynamic header component loading
+ * - Dynamic header component loading (fixed duplication issue)
  * - Smooth scrolling navigation
  * - Mobile menu management
  * - Scroll-based effects and animations
@@ -33,11 +33,11 @@ const CONFIG = {
     
     // Selectors
     SELECTORS: {
-      header: '#portfolio-header',
+      header: '.portfolio-header',
       headerContainer: '.header-container',
       navLinks: '.nav-link, .mobile-nav-link',
-      mobileToggle: '#mobile-toggle',
-      mobileMenu: '#mobile-menu',
+      mobileToggle: '#mobileToggle',
+      mobileMenu: '#mobileMenu',
       scrollElements: '.animate-on-scroll',
       contactForm: '#contact-form',
       backToTop: '#back-to-top'
@@ -89,21 +89,6 @@ const CONFIG = {
   };
   
   /**
-   * Check if element is in viewport
-   * @param {Element} element - Element to check
-   * @returns {boolean} True if element is visible
-   */
-  const isInViewport = (element) => {
-    const rect = element.getBoundingClientRect();
-    return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-  };
-  
-  /**
    * Get current page name from URL
    * @returns {string} Current page name
    */
@@ -118,27 +103,17 @@ const CONFIG = {
    */
   const showLoading = (element) => {
     if (element) {
-      element.innerHTML = '<div class="loading-spinner">Loading...</div>';
+      element.innerHTML = '<div class="loading-spinner">Loading header...</div>';
       element.classList.add('loading');
     }
   };
   
-  /**
-   * Hide loading indicator
-   * @param {Element} element - Element to hide loading from
-   */
-  const hideLoading = (element) => {
-    if (element) {
-      element.classList.remove('loading');
-    }
-  };
-  
   // ============================================
-  // HEADER COMPONENT LOADER
+  // HEADER COMPONENT LOADER (FIXED VERSION)
   // ============================================
   
   /**
-   * Load header component dynamically
+   * Load header component dynamically - FIXED to prevent duplicates
    * Fetches header HTML and injects into page with error handling
    */
   const loadHeaderComponent = async () => {
@@ -146,6 +121,12 @@ const CONFIG = {
     
     if (!headerPlaceholder) {
       console.warn('Header placeholder not found. Add <div data-component="header"></div> to your HTML.');
+      return;
+    }
+  
+    // Check if header is already loaded
+    if (document.querySelector('.portfolio-header')) {
+      console.log('Header already loaded, skipping...');
       return;
     }
   
@@ -160,27 +141,22 @@ const CONFIG = {
   
       const headerHTML = await response.text();
       
-      // Extract just the header element from the component file
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = headerHTML;
-      const headerElement = tempDiv.querySelector('.portfolio-header');
+      // Replace the placeholder with the header content
+      headerPlaceholder.outerHTML = headerHTML;
+      console.log('Header component loaded successfully');
       
-      if (headerElement) {
-        headerPlaceholder.outerHTML = headerElement.outerHTML;
-        console.log('Header component loaded successfully');
-        
-        // Initialize header-related functionality after loading
-        await initHeaderFunctionality();
-      } else {
-        throw new Error('Header element not found in component file');
-      }
+      // Small delay to ensure DOM is ready, then initialize functionality
+      setTimeout(() => {
+        initAdditionalFeatures();
+        adjustBodyPadding();
+      }, 100);
   
     } catch (error) {
       console.error('Error loading header component:', error);
       
       // Fallback to basic header
       headerPlaceholder.innerHTML = `
-        <header class="portfolio-header">
+        <header class="portfolio-header" id="portfolioHeader">
           <div class="header-container">
             <a href="index.html" class="logo-section">
               <div class="logo-icon">TM</div>
@@ -197,27 +173,35 @@ const CONFIG = {
                 <li><a href="#contact" class="nav-link">Contact</a></li>
               </ul>
             </nav>
+            <button class="mobile-toggle" id="mobileToggle">
+              <i class="fas fa-bars"></i>
+            </button>
+          </div>
+          <div class="mobile-menu" id="mobileMenu">
+            <ul class="mobile-nav-list">
+              <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+              <li><a href="experience.html" class="mobile-nav-link">Experience</a></li>
+              <li><a href="projects.html" class="mobile-nav-link">Projects</a></li>
+              <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+            </ul>
           </div>
         </header>
       `;
       
-      await initHeaderFunctionality();
+      setTimeout(() => {
+        initAdditionalFeatures();
+        adjustBodyPadding();
+      }, 100);
     }
   };
   
   /**
-   * Initialize header-specific functionality after component loads
+   * Initialize additional features (beyond what's in the header component)
    */
-  const initHeaderFunctionality = async () => {
-    // Small delay to ensure DOM is ready
-    await new Promise(resolve => setTimeout(resolve, 50));
-    
-    initNavigation();
-    initMobileMenu();
-    initScrollEffects();
-    
-    // Ensure proper body padding for fixed header
-    adjustBodyPadding();
+  const initAdditionalFeatures = () => {
+    initBackToTop();
+    initFormHandling();
+    initAnimations();
   };
   
   /**
@@ -232,256 +216,8 @@ const CONFIG = {
   };
   
   // ============================================
-  // NAVIGATION FUNCTIONALITY
-  // ============================================
-  
-  /**
-   * Initialize navigation functionality
-   * Handles active link highlighting and smooth scrolling
-   */
-  const initNavigation = () => {
-    setActiveNavLink();
-    initSmoothScrolling();
-    
-    // Update active link on navigation
-    window.addEventListener('popstate', setActiveNavLink);
-  };
-  
-  /**
-   * Set active navigation link based on current page
-   */
-  const setActiveNavLink = () => {
-    const currentPage = getCurrentPage();
-    const navLinks = document.querySelectorAll(CONFIG.SELECTORS.navLinks);
-    
-    navLinks.forEach(link => {
-      link.classList.remove('active');
-      
-      const href = link.getAttribute('href');
-      const isCurrentPage = href === currentPage || 
-                           (currentPage === '' && href === 'index.html') ||
-                           (href.startsWith('#') && currentPage === 'index.html');
-      
-      if (isCurrentPage) {
-        link.classList.add('active');
-      }
-    });
-  };
-  
-  /**
-   * Initialize smooth scrolling for anchor links
-   */
-  const initSmoothScrolling = () => {
-    document.addEventListener('click', (e) => {
-      const link = e.target.closest('a[href^="#"]');
-      if (!link) return;
-      
-      e.preventDefault();
-      
-      const targetId = link.getAttribute('href');
-      const target = document.querySelector(targetId);
-      
-      if (target) {
-        const header = document.querySelector('.portfolio-header');
-        const headerHeight = header ? header.offsetHeight : 0;
-        const targetPosition = target.offsetTop - headerHeight - CONFIG.SCROLL_OFFSET;
-        
-        window.scrollTo({
-          top: Math.max(0, targetPosition),
-          behavior: 'smooth'
-        });
-        
-        // Close mobile menu if open
-        closeMobileMenu();
-      }
-    });
-  };
-  
-  // ============================================
-  // MOBILE MENU FUNCTIONALITY
-  // ============================================
-  
-  /**
-   * Initialize mobile menu functionality
-   */
-  const initMobileMenu = () => {
-    const mobileToggle = document.querySelector('[id*="mobile"], [class*="mobile-toggle"]');
-    const mobileMenu = document.querySelector('[id*="mobile-menu"], [class*="mobile-menu"]');
-    
-    if (!mobileToggle || !mobileMenu) {
-      console.warn('Mobile menu elements not found');
-      return;
-    }
-  
-    // Toggle mobile menu
-    mobileToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleMobileMenu();
-    });
-  
-    // Close menu when clicking on links
-    const mobileNavLinks = mobileMenu.querySelectorAll('a');
-    mobileNavLinks.forEach(link => {
-      link.addEventListener('click', closeMobileMenu);
-    });
-  
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-      const header = document.querySelector('.portfolio-header');
-      if (header && !header.contains(e.target)) {
-        closeMobileMenu();
-      }
-    });
-  
-    // Close menu on escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeMobileMenu();
-      }
-    });
-  
-    // Close menu on window resize to desktop
-    window.addEventListener('resize', debounce(() => {
-      if (window.innerWidth > 768) {
-        closeMobileMenu();
-      }
-    }, 250));
-  };
-  
-  /**
-   * Toggle mobile menu open/closed
-   */
-  const toggleMobileMenu = () => {
-    const mobileMenu = document.querySelector('[id*="mobile-menu"], [class*="mobile-menu"]');
-    const mobileToggle = document.querySelector('[id*="mobile"], [class*="mobile-toggle"]');
-    const toggleIcon = mobileToggle?.querySelector('i');
-    
-    if (!mobileMenu) return;
-  
-    const isActive = mobileMenu.classList.toggle('active');
-    
-    // Update toggle icon
-    if (toggleIcon) {
-      toggleIcon.className = isActive ? 'fas fa-times' : 'fas fa-bars';
-    }
-    
-    // Prevent body scroll when menu is open
-    document.body.style.overflow = isActive ? 'hidden' : '';
-    
-    // Accessibility
-    mobileToggle?.setAttribute('aria-expanded', isActive.toString());
-    mobileMenu.setAttribute('aria-hidden', (!isActive).toString());
-  };
-  
-  /**
-   * Close mobile menu
-   */
-  const closeMobileMenu = () => {
-    const mobileMenu = document.querySelector('[id*="mobile-menu"], [class*="mobile-menu"]');
-    const mobileToggle = document.querySelector('[id*="mobile"], [class*="mobile-toggle"]');
-    const toggleIcon = mobileToggle?.querySelector('i');
-    
-    if (!mobileMenu) return;
-  
-    mobileMenu.classList.remove('active');
-    
-    // Reset toggle icon
-    if (toggleIcon) {
-      toggleIcon.className = 'fas fa-bars';
-    }
-    
-    // Restore body scroll
-    document.body.style.overflow = '';
-    
-    // Accessibility
-    mobileToggle?.setAttribute('aria-expanded', 'false');
-    mobileMenu.setAttribute('aria-hidden', 'true');
-  };
-  
-  // ============================================
   // SCROLL EFFECTS
   // ============================================
-  
-  /**
-   * Initialize scroll-based effects
-   */
-  const initScrollEffects = () => {
-    initHeaderScrollEffect();
-    initActiveSection();
-    initBackToTop();
-    
-    // Throttled scroll handler for performance
-    const handleScroll = throttle(() => {
-      updateHeaderOnScroll();
-      updateActiveSectionOnScroll();
-      updateBackToTopVisibility();
-    }, CONFIG.THROTTLE_DELAY);
-    
-    window.addEventListener('scroll', handleScroll, { passive: true });
-  };
-  
-  /**
-   * Initialize header transparency effect on scroll
-   */
-  const initHeaderScrollEffect = () => {
-    updateHeaderOnScroll(); // Set initial state
-  };
-  
-  /**
-   * Update header appearance based on scroll position
-   */
-  const updateHeaderOnScroll = () => {
-    const header = document.querySelector('.portfolio-header');
-    if (!header) return;
-  
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
-    if (scrollTop > CONFIG.SCROLL_THRESHOLD) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-  };
-  
-  /**
-   * Initialize active section highlighting
-   */
-  const initActiveSection = () => {
-    const sections = document.querySelectorAll('section[id]');
-    if (sections.length === 0) return;
-  
-    updateActiveSectionOnScroll();
-  };
-  
-  /**
-   * Update active section based on scroll position
-   */
-  const updateActiveSectionOnScroll = () => {
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('a[href^="#"]');
-    
-    if (sections.length === 0) return;
-  
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const headerHeight = document.querySelector('.portfolio-header')?.offsetHeight || 0;
-    
-    let activeSection = '';
-    
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop - headerHeight - CONFIG.SCROLL_OFFSET;
-      const sectionHeight = section.offsetHeight;
-      
-      if (scrollTop >= sectionTop && scrollTop < sectionTop + sectionHeight) {
-        activeSection = section.getAttribute('id');
-      }
-    });
-    
-    // Update navigation links
-    navLinks.forEach(link => {
-      const href = link.getAttribute('href');
-      link.classList.toggle('active', href === `#${activeSection}`);
-    });
-  };
   
   /**
    * Initialize back to top functionality
@@ -502,6 +238,24 @@ const CONFIG = {
         behavior: 'smooth'
       });
     });
+  
+    // Show/hide based on scroll position
+    const handleScroll = throttle(() => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const shouldShow = scrollTop > window.innerHeight;
+      
+      if (shouldShow) {
+        backToTopBtn.style.opacity = '1';
+        backToTopBtn.style.visibility = 'visible';
+        backToTopBtn.style.transform = 'translateY(0)';
+      } else {
+        backToTopBtn.style.opacity = '0';
+        backToTopBtn.style.visibility = 'hidden';
+        backToTopBtn.style.transform = 'translateY(20px)';
+      }
+    }, CONFIG.THROTTLE_DELAY);
+  
+    window.addEventListener('scroll', handleScroll, { passive: true });
   };
   
   /**
@@ -520,12 +274,12 @@ const CONFIG = {
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      background: var(--primary-600);
+      background: var(--primary-600, #2563eb);
       color: white;
       border: none;
       cursor: pointer;
-      box-shadow: var(--shadow-lg);
-      transition: var(--transition-normal);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 1000;
       opacity: 0;
       visibility: hidden;
@@ -533,27 +287,6 @@ const CONFIG = {
     `;
     
     document.body.appendChild(button);
-  };
-  
-  /**
-   * Update back to top button visibility
-   */
-  const updateBackToTopVisibility = () => {
-    const backToTopBtn = document.querySelector('#back-to-top');
-    if (!backToTopBtn) return;
-  
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const shouldShow = scrollTop > window.innerHeight;
-    
-    if (shouldShow) {
-      backToTopBtn.style.opacity = '1';
-      backToTopBtn.style.visibility = 'visible';
-      backToTopBtn.style.transform = 'translateY(0)';
-    } else {
-      backToTopBtn.style.opacity = '0';
-      backToTopBtn.style.visibility = 'hidden';
-      backToTopBtn.style.transform = 'translateY(20px)';
-    }
   };
   
   // ============================================
@@ -754,7 +487,7 @@ const CONFIG = {
     errorElement.className = 'field-error';
     errorElement.textContent = message;
     errorElement.style.cssText = `
-      color: var(--error);
+      color: #ef4444;
       font-size: 0.875rem;
       margin-top: 0.25rem;
     `;
@@ -796,7 +529,7 @@ const CONFIG = {
       border-radius: 0.5rem;
       margin-bottom: 1rem;
       font-weight: 500;
-      background: ${type === 'success' ? 'var(--success)' : 'var(--error)'};
+      background: ${type === 'success' ? '#10b981' : '#ef4444'};
       color: white;
     `;
     
@@ -811,30 +544,6 @@ const CONFIG = {
   };
   
   // ============================================
-  // PERFORMANCE MONITORING
-  // ============================================
-  
-  /**
-   * Monitor and log performance metrics
-   */
-  const monitorPerformance = () => {
-    if ('performance' in window) {
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          const perfData = performance.getEntriesByType('navigation')[0];
-          if (perfData) {
-            console.log('Page Load Performance:', {
-              'DOM Content Loaded': Math.round(perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart),
-              'Load Complete': Math.round(perfData.loadEventEnd - perfData.loadEventStart),
-              'Total Load Time': Math.round(perfData.loadEventEnd - perfData.navigationStart)
-            });
-          }
-        }, 0);
-      });
-    }
-  };
-  
-  // ============================================
   // INITIALIZATION
   // ============================================
   
@@ -845,17 +554,8 @@ const CONFIG = {
     try {
       console.log('Initializing portfolio...');
       
-      // Load header component first
+      // Load header component first (this will handle all header functionality)
       await loadHeaderComponent();
-      
-      // Initialize all other functionality
-      initAnimations();
-      initFormHandling();
-      
-      // Monitor performance in development
-      if (window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1')) {
-        monitorPerformance();
-      }
       
       console.log('Portfolio initialized successfully');
       
@@ -876,25 +576,9 @@ const CONFIG = {
     initPortfolio();
   }
   
-  // Handle page visibility changes for performance
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      // Page is hidden - pause any unnecessary operations
-      console.log('Page hidden - pausing operations');
-    } else {
-      // Page is visible - resume operations
-      console.log('Page visible - resuming operations');
-    }
-  });
-  
   // Export functions for external use if needed
   window.PortfolioJS = {
     loadHeaderComponent,
-    initNavigation,
-    initMobileMenu,
-    initScrollEffects,
     initAnimations,
-    initFormHandling,
-    toggleMobileMenu,
-    closeMobileMenu
+    initFormHandling
   };
