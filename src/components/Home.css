@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
 .home-section {
   min-height: 100vh;
@@ -18,6 +18,7 @@
   width: 100%;
   height: 100%;
   z-index: 1;
+  opacity: 0.6; /* ADDED: Overall opacity control for canvas */
 }
 
 .home-container {
@@ -35,12 +36,12 @@
 
 .home-content {
   animation: fadeInLeft 1s ease-out;
-  background: var(--bg-primary);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(var(--bg-primary-rgb), 0.85); /* CHANGED: More transparent background */
+  backdrop-filter: blur(10px); /* CHANGED: Reduced from 20px */
+  -webkit-backdrop-filter: blur(10px);
   padding: 3rem;
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* CHANGED: Stronger shadow for better depth */
   border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
@@ -50,11 +51,11 @@
 
 .home-title {
   font-size: 3rem;
-  font-weight: 800;
+  font-weight: 900; /* CHANGED: Increased from 800 for more impact */
   margin-bottom: 1.5rem;
   line-height: 1.1;
   color: var(--text-primary);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em; /* CHANGED: Slightly tighter spacing */
 }
 
 .highlight {
@@ -67,10 +68,10 @@
 
 .home-subtitle {
   font-size: 1.5rem;
-  font-weight: 500;
+  font-weight: 400; /* CHANGED: Reduced from 500 for better contrast with title */
   margin-bottom: 2rem;
   color: var(--text-secondary);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em; /* CHANGED: Slightly more spacing */
 }
 
 .home-description {
@@ -99,7 +100,7 @@
   text-decoration: none;
   font-weight: 600;
   font-size: 1rem;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* CHANGED: Smoother easing */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -138,9 +139,12 @@
 
 .home-social {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem; /* CHANGED: Increased from 1rem for better spacing */
   justify-content: center;
   align-items: center;
+  padding-top: 1rem;
+  border-top: 2px solid var(--border); /* ADDED: Visual separator */
+  margin-top: 1rem;
 }
 
 .social-icon {
@@ -153,14 +157,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* CHANGED: Smoother easing */
   position: relative;
   border: 2px solid var(--border);
 }
 
 .social-icon:hover {
   color: var(--text-primary) !important;
-  border-color: var(--text-primary);
+  border-color: var(--accent); /* CHANGED: Use accent color */
   background: var(--bg-secondary);
   transform: translateY(-5px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
@@ -188,22 +192,24 @@
 }
 
 .image-circle {
-  width: 300px;
-  height: 300px;
+  width: 220px; /* CHANGED: Reduced from 300px */
+  height: 220px; /* CHANGED: Reduced from 300px */
   border-radius: 50%;
-  background: linear-gradient(135deg, #808080 0%, #606060 100%);
+  background: linear-gradient(135deg, #667788 0%, #556677 100%); /* CHANGED: Softer gradient */
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 20px 60px rgba(128, 128, 128, 0.3);
+  box-shadow: 0 15px 40px rgba(100, 120, 140, 0.25); /* CHANGED: Softer shadow */
   margin: 0 auto;
   animation: float 3s ease-in-out infinite;
+  border: 3px solid var(--border); /* ADDED: Subtle border */
 }
 
 .image-text {
-  font-size: 5rem;
+  font-size: 3.5rem; /* CHANGED: Reduced from 5rem */
   font-weight: 700;
   color: #ffffff;
+  opacity: 0.9; /* ADDED: Slightly transparent */
 }
 
 @keyframes fadeInLeft {
@@ -257,16 +263,20 @@
   }
   
   .image-circle {
-    width: 250px;
-    height: 250px;
+    width: 200px; /* CHANGED: Adjusted for mobile */
+    height: 200px;
   }
   
   .image-text {
-    font-size: 4rem;
+    font-size: 3rem; /* CHANGED: Adjusted for mobile */
   }
 }
 
 @media (max-width: 600px) {
+  .home-section {
+    padding: 1.5rem 1rem; /* ADDED: Better mobile spacing */
+  }
+  
   .home-title {
     font-size: 2.25rem;
   }
@@ -285,15 +295,27 @@
   }
   
   .image-circle {
-    width: 200px;
-    height: 200px;
+    width: 180px; /* CHANGED: Smaller for mobile */
+    height: 180px;
   }
   
   .image-text {
-    font-size: 3rem;
+    font-size: 2.5rem; /* CHANGED: Smaller for mobile */
   }
   
   .home-content {
     padding: 2rem;
   }
+  
+  /* ADDED: Make background less distracting on mobile */
+  .home-canvas {
+    opacity: 0.3;
+  }
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }

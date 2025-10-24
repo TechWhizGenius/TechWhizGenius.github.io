@@ -56,14 +56,19 @@
   background: var(--bg-secondary);
   border-radius: 12px;
   overflow: hidden;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
+  /* CHANGED: Better shadow for depth */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08),
+              0 1px 3px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* CHANGED: Smoother easing */
+  border: 1px solid var(--border); /* ADDED: Subtle border */
 }
 
 .contact-card:hover {
   transform: translateY(-5px);
-  border-color: var(--text-primary);
-  box-shadow: 0 10px 30px rgba(128, 128, 128, 0.2);
+  border-color: var(--accent); /* CHANGED: Use accent color */
+  /* CHANGED: Enhanced hover shadow */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15),
+              0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .contact-link {
@@ -86,6 +91,14 @@
   justify-content: center;
   min-width: 70px;
   height: 70px;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* CHANGED: Bouncy effect */
+}
+
+/* ADDED: Playful icon hover effect */
+.contact-card:hover .contact-icon {
+  transform: scale(1.1) rotate(5deg);
+  border-color: var(--accent);
+  background: var(--accent);
 }
 
 .contact-details {
@@ -116,22 +129,46 @@
 .cta-button {
   display: inline-block;
   padding: 1.25rem 3rem;
-  background: var(--text-primary);
-  color: var(--bg-primary);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%); /* CHANGED: Gradient background */
+  color: white; /* CHANGED: Always white text for better contrast */
   text-decoration: none;
   font-size: 1.2rem;
   font-weight: 600;
   border-radius: 50px;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  border: 2px solid var(--text-primary);
+  border: none; /* CHANGED: Remove border */
+  position: relative;
+  overflow: hidden;
+}
+
+/* ADDED: Gradient slide effect */
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--accent-hover) 0%, var(--accent) 100%);
+  transition: left 0.3s ease;
+  z-index: 0;
+}
+
+.cta-button:hover::before {
+  left: 0;
 }
 
 .cta-button:hover {
-  background: var(--text-secondary);
-  border-color: var(--text-secondary);
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* ADDED: Ensure text is above gradient */
+.cta-button span,
+.cta-button {
+  position: relative;
+  z-index: 1;
 }
 
 /* Responsive Design */

@@ -47,15 +47,19 @@
   background: var(--bg-secondary);
   border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
+  /* CHANGED: Better shadow for depth */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08),
+              0 1px 3px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* CHANGED: Smoother easing */
+  border: 1px solid var(--border); /* ADDED: Subtle border */
 }
 
 .education-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 12px 40px rgba(128, 128, 128, 0.2);
-  border-color: var(--text-primary);
+  transform: translateY(-8px); /* CHANGED: Reduced from -10px for subtlety */
+  /* CHANGED: Enhanced hover shadow */
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15),
+              0 6px 12px rgba(0, 0, 0, 0.1);
+  border-color: var(--accent); /* CHANGED: Use accent color instead of text-primary */
 }
 
 .card-header {
@@ -76,6 +80,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease; /* ADDED: Smooth transition */
+}
+
+/* ADDED: Icon hover effect */
+.education-card:hover .degree-icon {
+  border-color: var(--accent);
+  transform: scale(1.05);
 }
 
 .degree-title {
@@ -103,13 +114,22 @@
   color: var(--text-secondary);
 }
 
+/* ADDED: Accent color for emojis */
+.education-location::before {
+  color: var(--accent);
+}
+
+.education-period::before {
+  color: var(--accent);
+}
+
 .education-gpa {
   font-size: 1.1rem;
   color: var(--text-primary);
 }
 
 .gpa-value {
-  color: var(--text-primary);
+  color: var(--accent); /* CHANGED: Use accent color for emphasis */
   font-weight: 700;
   font-size: 1.3rem;
 }
@@ -139,14 +159,15 @@
   border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* CHANGED: Smoother easing */
 }
 
 .course-tag:hover {
-  background: var(--text-primary);
+  background: var(--accent); /* CHANGED: Use accent color */
   color: var(--bg-primary);
-  border-color: var(--text-primary);
+  border-color: var(--accent);
   transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* ADDED: Subtle shadow on hover */
 }
 
 /* Responsive Design */
