@@ -234,7 +234,7 @@ function Home() {
           </div>
           
           <p className="home-intro">
-            👋 Hi! I'm an <strong>MLOps Engineer</strong> and <strong>AI Researcher</strong> building production AI systems that process millions of queries. Led <strong>50+ agent deployments</strong> at <strong>Vosyn Inc.</strong> and researching multimodal ML at <strong>University of North Texas</strong>. Specialized in RAG systems, LLM deployment, and scalable ML infrastructure. ❤️
+            👋Hi! I'm an <strong>MLOps Engineer</strong> and <strong>AI Researcher</strong> building production AI systems that process millions of queries. Led <strong>50+ agent deployments</strong> at <strong>Vosyn Inc.</strong> and researching multimodal ML at <strong>University of North Texas</strong>. Specialized in RAG systems, LLM deployment, and scalable ML infrastructure. ❤️
           </p>
           
           <div className="home-buttons-centered">

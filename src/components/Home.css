@@ -38,6 +38,7 @@
   animation: fadeIn 0.8s ease-out;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
 }
 
 .home-centered {
@@ -298,6 +299,7 @@
     padding: clamp(1.5rem, 3vw, 2rem);
   }
   
+  /* Keep badge in top-right on tablet landscape */
   .availability-badge {
     font-size: clamp(0.7rem, 1.5vw, 0.8rem);
     padding: 0.5rem 1rem;
@@ -323,16 +325,20 @@
     justify-content: center;
   }
   
+  /* Position badge above profile picture on mobile */
   .availability-badge {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: clamp(1rem, 4vw, 1.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
   }
 
   .home-centered {
     max-width: 95%;
     padding: 0;
     margin: 0 auto;
+    padding-top: clamp(3.5rem, 8vw, 4.5rem); /* Add top padding to account for badge */
   }
 
   .home-buttons-centered {
@@ -347,9 +353,21 @@
     width: 100%;
   }
   
+  /* Fix stats badges layout on mobile */
   .stats-badges {
     max-width: 100%;
     justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+  }
+  
+  .stat-badge {
+    text-align: center;
+    font-size: 0.75rem;
+    padding: 0.45rem 0.7rem;
+    white-space: normal;
+    line-height: 1.3;
   }
 }
 
@@ -369,6 +387,16 @@
     align-items: center;
     justify-content: center;
   }
+  
+  .availability-badge {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+    top: 1rem;
+  }
+  
+  .home-centered {
+    padding-top: 3.5rem;
+  }
 
   .home-content-centered {
     gap: 1rem;
@@ -387,19 +415,24 @@
   }
 
   .stats-badges {
-    gap: 0.4rem;
+    gap: 0.5rem;
     justify-content: center;
     width: 100%;
+    grid-template-columns: 1fr;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .stat-badge {
+    width: 100%;
+    text-align: center;
   }
 
   .home-buttons-centered {
     max-width: 100%;
     gap: 0.5rem;
     width: 100%;
-  }
-  
-  .home-centered {
-    padding: 0;
   }
 }
 
