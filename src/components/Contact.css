@@ -1,23 +1,23 @@
 .contact-section {
   min-height: 100vh;
-  padding: 5rem 2rem;
+  padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 3vw, 2rem);
   background: var(--bg-primary);
   width: 100%;
   overflow-x: hidden;
 }
 
 .contact-container {
-  max-width: 1200px;
+  max-width: min(1200px, 95%);
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
 }
 
 .section-title {
-  font-size: 3rem;
+  font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2rem);
   color: var(--text-primary);
   position: relative;
   display: flex;
@@ -38,18 +38,18 @@
 
 .contact-intro {
   text-align: center;
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2vw, 1.2rem);
   color: var(--text-secondary);
-  max-width: 700px;
-  margin: 2rem auto 4rem;
+  max-width: min(700px, 95%);
+  margin: clamp(1.5rem, 3vw, 2rem) auto clamp(2.5rem, 5vw, 4rem);
   line-height: 1.8;
 }
 
 .contact-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-bottom: 4rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
 .contact-card {
@@ -74,23 +74,23 @@
 .contact-link {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  padding: 2rem;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(1.5rem, 3vw, 2rem);
   text-decoration: none;
   color: inherit;
 }
 
 .contact-icon {
-  font-size: 3rem;
+  font-size: clamp(2.5rem, 5vw, 3rem);
   background: var(--bg-secondary);
   border: 2px solid var(--border);
-  padding: 1rem;
+  padding: clamp(0.8rem, 1.5vw, 1rem);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 70px;
-  height: 70px;
+  min-width: clamp(60px, 10vw, 70px);
+  height: clamp(60px, 10vw, 70px);
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* CHANGED: Bouncy effect */
 }
 
@@ -106,7 +106,7 @@
 }
 
 .contact-label {
-  font-size: 1rem;
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
   font-weight: 600;
   color: var(--text-secondary);
   margin-bottom: 0.5rem;
@@ -115,7 +115,7 @@
 }
 
 .contact-value {
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
   color: var(--text-primary);
   font-weight: 500;
   word-break: break-word;
@@ -123,16 +123,16 @@
 
 .contact-cta {
   text-align: center;
-  margin-top: 3rem;
+  margin-top: clamp(2rem, 4vw, 3rem);
 }
 
 .cta-button {
   display: inline-block;
-  padding: 1.25rem 3rem;
+  padding: clamp(1rem, 2vw, 1.25rem) clamp(2rem, 4vw, 3rem);
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%); /* CHANGED: Gradient background */
   color: white; /* CHANGED: Always white text for better contrast */
   text-decoration: none;
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 600;
   border-radius: 50px;
   transition: all 0.3s ease;
@@ -172,13 +172,22 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+/* Tablets and below (900px and less) */
+@media (max-width: 900px) {
+  .contact-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  }
+}
+
+/* Mobile Landscape and below (767px and less) */
+@media (max-width: 767px) {
   .contact-section {
-    padding: 3rem 1rem;
+    padding: clamp(2rem, 5vw, 3rem) clamp(0.5rem, 2vw, 1rem);
   }
   
   .contact-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
   
   .contact-link {
@@ -194,5 +203,26 @@
   .cta-button {
     padding: 1rem 2rem;
     font-size: 1rem;
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/* Small Mobile (480px and less) */
+@media (max-width: 480px) {
+  .contact-link {
+    padding: 1.2rem;
+    gap: 1rem;
+  }
+  
+  .contact-icon {
+    font-size: 2.2rem;
+    min-width: 55px;
+    height: 55px;
+    padding: 0.7rem;
+  }
+  
+  .cta-button {
+    max-width: 100%;
   }
 }

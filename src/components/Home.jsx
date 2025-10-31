@@ -99,8 +99,8 @@ function Home() {
 
       draw(theme) {
         const color = theme === 'dark' 
-          ? 'rgba(150, 150, 150, 0.2)' 
-          : 'rgba(100, 100, 100, 0.25)';
+          ? 'rgba(150, 150, 150, 0.15)' 
+          : 'rgba(100, 100, 100, 0.18)';
         
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -129,8 +129,8 @@ function Home() {
     function animate() {
       const theme = document.documentElement.getAttribute('data-theme');
       const bgColor = theme === 'dark' 
-        ? 'rgba(10, 10, 10, 0.08)' 
-        : 'rgba(255, 255, 255, 0.08)';
+        ? 'rgba(10, 10, 10, 0.12)' 
+        : 'rgba(255, 255, 255, 0.12)';
       
       ctx.fillStyle = bgColor;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -147,7 +147,7 @@ function Home() {
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < maxDistance) {
-            const opacity = (1 - distance / maxDistance) * 0.06;
+            const opacity = (1 - distance / maxDistance) * 0.04;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);

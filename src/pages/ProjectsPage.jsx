@@ -1,6 +1,12 @@
+import { useEffect } from 'react';
 import './ProjectsPage.css';
 
 function ProjectsPage() {
+  // Scroll to top when component mounts to ensure proper alignment
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const projects = [
     {
       title: "AI-Powered Chatbot",
