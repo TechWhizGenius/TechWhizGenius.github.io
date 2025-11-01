@@ -87,6 +87,16 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* ADDED: Subtle shadow */
 }
 
+/* Hide mobile theme toggle on desktop */
+.theme-toggle-mobile {
+  display: none;
+}
+
+/* Show desktop theme toggle */
+.theme-toggle-desktop {
+  display: flex;
+}
+
 /* ADDED: Hamburger menu styles */
 .hamburger {
   display: none;
@@ -137,6 +147,29 @@
     display: flex;
   }
   
+  /* Show mobile theme toggle in navbar */
+  .theme-toggle-mobile {
+    display: flex;
+    position: relative;
+    z-index: 1001;
+  }
+  
+  /* Hide desktop theme toggle from menu */
+  .theme-toggle-desktop {
+    display: none;
+  }
+  
+  .navbar-container {
+    padding: 0 clamp(0.8rem, 2vw, 1rem);
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-spacer {
+    display: none;
+  }
+  
   .navbar-right {
     position: fixed;
     top: clamp(60px, 10vw, 70px);
@@ -170,19 +203,6 @@
     display: block;
     padding: 0.5rem 0;
     font-size: clamp(1rem, 2vw, 1.1rem);
-  }
-  
-  .theme-toggle {
-    margin-top: auto;
-  }
-  
-  .navbar-container {
-    padding: 0 clamp(0.8rem, 2vw, 1rem);
-    justify-content: space-between;
-  }
-  
-  .navbar-spacer {
-    display: none;
   }
 }
 

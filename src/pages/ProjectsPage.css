@@ -176,6 +176,16 @@
   height: 20px;
 }
 
+.coming-soon-btn {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.coming-soon-btn:hover {
+  transform: none;
+  box-shadow: none;
+}
+
 /* Responsive Design */
 /* Small Laptops and below (1024px and less) */
 @media (max-width: 1024px) {
@@ -188,6 +198,7 @@
 @media (max-width: 767px) {
   .projects-section {
     padding: clamp(2rem, 5vw, 3rem) clamp(0.5rem, 2vw, 1rem);
+    padding-top: calc(70px + clamp(2rem, 5vw, 3rem)); /* Keep navbar offset on mobile */
   }
   
   .projects-grid {

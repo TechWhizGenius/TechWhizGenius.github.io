@@ -46,6 +46,10 @@ function Navbar() {
 
   const handleProjectsClick = () => {
     setIsMenuOpen(false);
+    // Scroll to top immediately when clicking Projects
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   };
 
   return (
@@ -64,6 +68,11 @@ function Navbar() {
           <span></span>
         </button>
         
+        {/* Theme toggle - visible on mobile navbar */}
+        <button className="theme-toggle theme-toggle-mobile" onClick={toggleTheme} aria-label="Toggle theme">
+          {theme === 'dark' ? '☀️' : '🌙'}
+        </button>
+        
         <div className={`navbar-right ${isMenuOpen ? 'active' : ''}`}>
           <ul className="navbar-menu">
             <li><a href="#home" onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}>Home</a></li>
@@ -73,7 +82,8 @@ function Navbar() {
             <li><a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}>Contact</a></li>
           </ul>
           
-          <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
+          {/* Theme toggle for desktop */}
+          <button className="theme-toggle theme-toggle-desktop" onClick={toggleTheme} aria-label="Toggle theme">
             {theme === 'dark' ? '☀️' : '🌙'}
           </button>
         </div>

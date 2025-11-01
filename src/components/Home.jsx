@@ -42,12 +42,13 @@ function Home() {
     return () => clearTimeout(timer);
   }, [typedText, isDeleting, roleIndex]);
 
-  // Canvas animation
+  // Clean gradient animation matching existing color scheme
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
+    let animationFrameId;
     
     const updateCanvasSize = () => {
       canvas.width = window.innerWidth;
@@ -56,111 +57,55 @@ function Home() {
     
     updateCanvasSize();
 
-    const particles = [];
-    const particleCount = 60;
-    const maxDistance = 150;
-    const mouse = { x: null, y: null, radius: 150 };
-
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.size = Math.random() * 1.5 + 0.5;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-
-        if (mouse.x && mouse.y) {
-          const dx = mouse.x - this.x;
-          const dy = mouse.y - this.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < mouse.radius) {
-            const force = (mouse.radius - distance) / mouse.radius;
-            const angle = Math.atan2(dy, dx);
-            this.vx -= Math.cos(angle) * force * 0.05;
-            this.vy -= Math.sin(angle) * force * 0.05;
-          }
-        }
-
-        const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-        if (speed > 1) {
-          this.vx = (this.vx / speed) * 1;
-          this.vy = (this.vy / speed) * 1;
-        }
-      }
-
-      draw(theme) {
-        const color = theme === 'dark' 
-          ? 'rgba(150, 150, 150, 0.15)' 
-          : 'rgba(100, 100, 100, 0.18)';
-        
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = color;
-        ctx.fill();
-      }
-    }
-
-    for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle());
-    }
-
-    const handleMouseMove = (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    };
-
-    const handleMouseLeave = () => {
-      mouse.x = null;
-      mouse.y = null;
-    };
-
-    canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('mouseleave', handleMouseLeave);
+    let gradientOffset = 0;
 
     function animate() {
       const theme = document.documentElement.getAttribute('data-theme');
-      const bgColor = theme === 'dark' 
-        ? 'rgba(10, 10, 10, 0.12)' 
-        : 'rgba(255, 255, 255, 0.12)';
       
-      ctx.fillStyle = bgColor;
+      // Create animated gradient
+      gradientOffset += 0.0003; // Very slow animation
+      
+      if (theme === 'dark') {
+        // Dark theme gradient - matching --bg-primary: #0a0a0a
+        const gradient = ctx.createLinearGradient(
+          0, 
+          0, 
+          canvas.width, 
+          canvas.height
+        );
+        
+        const offset1 = (Math.sin(gradientOffset) + 1) / 2;
+        const offset2 = (Math.cos(gradientOffset * 0.8) + 1) / 2;
+        
+        gradient.addColorStop(0, `rgba(10, 10, 10, 1)`);
+        gradient.addColorStop(offset1 * 0.4, `rgba(12, 12, 12, 1)`);
+        gradient.addColorStop(0.5 + offset2 * 0.3, `rgba(8, 8, 8, 1)`);
+        gradient.addColorStop(1, `rgba(10, 10, 10, 1)`);
+        
+        ctx.fillStyle = gradient;
+      } else {
+        // Light theme gradient - matching --bg-primary: #ffffff
+        const gradient = ctx.createLinearGradient(
+          0, 
+          0, 
+          canvas.width, 
+          canvas.height
+        );
+        
+        const offset1 = (Math.sin(gradientOffset) + 1) / 2;
+        const offset2 = (Math.cos(gradientOffset * 0.8) + 1) / 2;
+        
+        gradient.addColorStop(0, `rgba(255, 255, 255, 1)`);
+        gradient.addColorStop(offset1 * 0.4, `rgba(252, 252, 252, 1)`);
+        gradient.addColorStop(0.5 + offset2 * 0.3, `rgba(250, 250, 250, 1)`);
+        gradient.addColorStop(1, `rgba(255, 255, 255, 1)`);
+        
+        ctx.fillStyle = gradient;
+      }
+      
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      particles.forEach(particle => {
-        particle.update();
-        particle.draw(theme);
-      });
-
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < maxDistance) {
-            const opacity = (1 - distance / maxDistance) * 0.04;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = theme === 'dark'
-              ? `rgba(150, 150, 150, ${opacity})`
-              : `rgba(100, 100, 100, ${opacity})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
-      }
-
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     }
 
     animate();
@@ -172,9 +117,10 @@ function Home() {
     window.addEventListener('resize', handleResize);
 
     return () => {
-      canvas.removeEventListener('mousemove', handleMouseMove);
-      canvas.removeEventListener('mouseleave', handleMouseLeave);
       window.removeEventListener('resize', handleResize);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
     };
   }, []);
 
@@ -185,14 +131,14 @@ function Home() {
       <canvas ref={canvasRef} className="home-canvas"></canvas>
       
       <div className="availability-badge">
-        🟢 Open to Opportunities
+        <span style={{ color: '#22c55e' }}>●</span> Open to Opportunities
       </div>
 
       <div className="home-centered">
         <div className="home-content-centered">
           <div className="profile-image-top">
             <img 
-              src="/images/profile.jpg" 
+              src="/images/profile1.png" 
               alt="Teja Mandaloju" 
               className="profile-img"
             />
@@ -234,14 +180,14 @@ function Home() {
           </div>
           
           <p className="home-intro">
-            👋Hi! I'm an <strong>MLOps Engineer</strong> and <strong>AI Researcher</strong> building production AI systems that process millions of queries. Led <strong>50+ agent deployments</strong> at <strong>Vosyn Inc.</strong> and researching multimodal ML at <strong>University of North Texas</strong>. Specialized in RAG systems, LLM deployment, and scalable ML infrastructure. ❤️
+            Hi! I'm an <strong>MLOps Engineer</strong> and <strong>AI Researcher</strong> building production AI systems that process millions of queries. Led <strong>50+ agent deployments</strong> at <strong>Vosyn Inc.</strong> and researching multimodal ML at <strong>University of North Texas</strong>. Specialized in RAG systems, LLM deployment, and scalable ML infrastructure.
           </p>
           
           <div className="home-buttons-centered">
             <a href="#experience" className="btn-centered btn-primary-centered">
               VIEW EXPERIENCE
             </a>
-            <a href="/resume.pdf" download className="btn-centered btn-secondary-centered">
+            <a href="/docs/resume.pdf" download className="btn-centered btn-secondary-centered">
               DOWNLOAD RESUME
             </a>
           </div>

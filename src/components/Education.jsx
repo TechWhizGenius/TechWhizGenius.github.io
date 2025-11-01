@@ -8,7 +8,7 @@ function Education() {
       location: "Denton, Texas",
       gpa: "4.0",
       period: "Expected Graduation: Dec 2025",
-      coursework: ["Data Analytics", "Data Visualization", "Natural Language Processing", "Deep Learning", "LLMs"]
+      coursework: ["Machine Learning", "Deep Learning","LLMs", "Natural Language Processing", "Big Data Analytics", "AI in Health Care", "Cloud Computing"]
     },
     {
       degree: "Bachelor of Technology",
@@ -16,7 +16,7 @@ function Education() {
       location: "Hyderabad, India",
       gpa: "3.6",
       period: "2017 - 2021",
-      coursework: []
+      coursework: ["Statistics", "Probability", "Calculus", "Algebra", "Matlab", "Data Analysis", "Data Visualization", "Data Structures","Programming Languages"]
     }
   ];
 

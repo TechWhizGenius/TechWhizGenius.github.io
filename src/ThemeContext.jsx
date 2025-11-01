@@ -2,21 +2,23 @@ import { createContext, useState, useEffect } from 'react';
 
 export const ThemeContext = createContext();
 
-export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState('dark');
+export const ThemeProvider = ({ children }) => {
+  // Set default theme to 'light'
+  const [theme, setTheme] = useState(() => {
+    // Check if user has a saved preference
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme || 'light'; // Default to light if no saved preference
+  });
 
   useEffect(() => {
-    // Check if user has a saved preference
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    setTheme(savedTheme);
-    document.documentElement.setAttribute('data-theme', savedTheme);
-  }, []);
+    // Apply theme to document root
+    document.documentElement.setAttribute('data-theme', theme);
+    // Save theme preference
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
   return (
@@ -24,4 +26,4 @@ export function ThemeProvider({ children }) {
       {children}
     </ThemeContext.Provider>
   );
-}
+};
