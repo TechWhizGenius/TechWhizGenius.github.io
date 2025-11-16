@@ -1,4 +1,4 @@
-# Teja Mandaloju's Portfolio
+# Welcome to My Portfolio
 
 A modern, responsive personal portfolio website showcasing professional experience, education, projects, and contact information. Built with React and Vite for optimal performance and developer experience.
 
