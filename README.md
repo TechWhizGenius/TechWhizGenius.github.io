@@ -1,16 +1,114 @@
-# React + Vite
+# Teja Mandaloju's Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive personal portfolio website showcasing professional experience, education, projects, and contact information. Built with React and Vite for optimal performance and developer experience.
 
-Currently, two official plugins are available:
+**Live Site:** [https://techwhizgenius.github.io/](https://techwhizgenius.github.io/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- 🎨 **Dark/Light Theme Toggle** - Smooth theme switching with persistent preferences
+- 📱 **Fully Responsive** - Optimized for desktop, tablet, and mobile devices
+- ⚡ **Fast Performance** - Built with Vite for rapid development and optimized production builds
+- 🎭 **Interactive Animations** - Smooth transitions, particle effects, and typing animations
+- 🧭 **Smooth Navigation** - React Router for seamless page transitions
+- ♿ **Accessible** - Focus states, semantic HTML, and ARIA labels
+- 📊 **Multiple Sections** - Home, Experience, Education, Projects, and Contact
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **Frontend:** React 19
+- **Build Tool:** Vite 7
+- **Routing:** React Router 7
+- **Styling:** CSS3 with CSS Variables for theming
+- **Deployment:** GitHub Pages
+- **Package Manager:** npm
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Getting Started
+
+### Prerequisites
+- Node.js (v16 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/TechWhizGenius/portfolio.git
+cd portfolio
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+The site will be available at `http://localhost:5173/`
+
+## Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server with hot reload |
+| `npm run build` | Build for production (creates `dist/` folder) |
+| `npm run preview` | Preview production build locally |
+| `npm run deploy` | Build and deploy to GitHub Pages |
+| `npm run lint` | Check code for errors and style issues |
+
+## Deployment
+
+This portfolio is deployed to GitHub Pages using the `gh-pages` package.
+
+### Deploy to GitHub Pages
+
+```bash
+npm run deploy
+```
+
+This command:
+1. Builds the React app for production
+2. Pushes the built files to the `gh-pages` branch
+3. Updates the live site automatically
+
+**Note:** The site is built and deployed from the `main` branch.
+
+## Project Structure
+
+```
+portfolio/
+├── src/
+│   ├── components/          # Reusable components
+│   │   ├── Home.jsx
+│   │   ├── Experience.jsx
+│   │   ├── Education.jsx
+│   │   ├── Contact.jsx
+│   │   └── Navbar.jsx
+│   ├── pages/              # Page components
+│   │   ├── HomePage.jsx
+│   │   └── ProjectsPage.jsx
+│   ├── App.jsx             # Main app component
+│   ├── ThemeContext.jsx    # Theme context provider
+│   ├── main.jsx            # Entry point
+│   └── index.css           # Global styles
+├── public/                 # Static assets
+│   └── images/
+│       └── profile.jpg
+├── package.json
+├── vite.config.js
+└── README.md
+```
+## License
+
+This project is open source and available under the MIT License.
+
+## Contact
+
+For inquiries or feedback, reach out at: **https://www.linkedin.com/in/teja-mandaloju/**
+
+---
+
+**Last Updated:** November 2025
